@@ -1,1 +1,3 @@
 # tic-tac-toe
+
+In this "Tic Tac Toe" project I will recreate the classic game using mostly JavaScript. I will use HTML and CSS to create a simple game board, however my primary goal is to demonstrate my understanding of creating and manipulating objects using factory functions. Efforts will be made to use minmal global variables, and instead focus on locally-scoped, private variables utilizing the concepts of closure and encapsulation.

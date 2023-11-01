@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    color: #222;
+    background-color: #efefef;
+}
+
+.container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: hsl(194, 85%, 90%);
+    gap: 1rem;
+    width: 50%;
+    height: 100vh;
+    min-width: 420px;
+}
+
+h1 {
+    margin: 10px auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+input {
+    height: 1.6rem;
+    margin-bottom: 0.3rem;
+    padding: 2px;
+}
+
+button {
+    display: block;
+    padding: 4px;
+}
+
+.gameboard {
+    width: 380px;
+    height: 380px;
+    border: 4px double #343434;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin: 20px 0;
+}
+
+.gameboard > div {
+    border: 1px solid #343434;
+    font-size: 5.5rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
