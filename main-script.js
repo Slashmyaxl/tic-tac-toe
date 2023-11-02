@@ -8,7 +8,7 @@ const gameboard = (function () {
     for(i = 0; i < rows; i++) {
         board[i] = [];
         for(j = 0; j < columns; j++) {
-            board[i].push('-');
+            board[i].push('');
         }
     };
 
@@ -102,18 +102,81 @@ const gameController = (function () {
 
         if (gameboard.getBoard()[row][column] === '') {
             gameboard.placeMarker(row, column, getActivePlayer());
+            return isGameOver() === true ? console.log('Game Over') :
             switchPlayer();
-            getPlayerChoice();
+            
         } else {
             alert('Please select a valid square!');
             return;
-        }
+        };
         
     };
 
     const switchPlayer = function () {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        getPlayerChoice();
     };
+
+    const isGameOver = () => {
+
+        const board = gameboard.getBoard();
+        const emptySquaresExist = board.flat().includes('');
+        let winner;
+          
+        const checkRows = () => {
+            for (i = 0; i < board.length; i++) {
+                !board[i].includes('O') && !board[i].includes('')
+                ? winner = players[0].name
+                : !board[i].includes('X') && !board[i].includes('')
+                ? winner = players[1].name
+                : winner;
+            };
+            checkColumns();
+        }
+
+        const checkColumns = () => {
+            const cols = [
+                [board[0][0], board[1][0], board[2][0]], 
+                [board[0][1], board[1][1], board[2][1]],
+                [board[0][2], board[1][2], board[2][2]]
+            ];
+
+            for (i = 0; i < cols.length; i++) {
+                !cols[i].includes('O') && !cols[i].includes('')
+                ? winner = players[0].name
+                : !cols[i].includes('X') && !cols[i].includes('')
+                ? winner = players[1].name
+                : winner;
+            };
+            checkDiags();  
+        }
+
+        const checkDiags = () => {
+            const diags = [
+                [board[0][0], board[1][1], board[2][2]], 
+                [board[0][2], board[1][1], board[2][0]]
+            ];
+
+            for (i = 0; i < diags.length; i++) {
+                !diags[i].includes('O') && !diags[i].includes('')
+                ? winner = players[0].name
+                : !diags[i].includes('X') && !diags[i].includes('')
+                ? winner = players[1].name
+                : winner;
+            };  
+        }
+
+        const checkTie = () => {
+            if (!emptySquaresExist) {
+            console.log('Tie game!');
+            return true;
+            }
+        }
+
+        checkRows();
+        console.log(`Winner is: ${winner}`);
+        return winner || checkTie() ? true : false;       
+    }
 
     const getActivePlayer = () => activePlayer
 
