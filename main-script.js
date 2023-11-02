@@ -14,7 +14,6 @@ const gameboard = (function () {
 
     const clearBoard = function () { 
         board = board.map(row => row.map(index => index = ''));
-        console.log('New Board');
     };
 
     const getBoard = () => board;
@@ -38,9 +37,7 @@ const gameboard = (function () {
         };
     
     const placeMarker = function (row, column, player) {
-
         board[row][column] = player.marker;
-        console.log(`${player.name} plays ${player.marker} on row: ${row}, column: ${column}`)
         displayBoard();
     }
 
@@ -49,25 +46,24 @@ const gameboard = (function () {
 })();
 
 
-
 function createPlayer(name, marker) {
-    const declarePlayer = () => {
-        console.log(`Hello, I'm ${name} and my marker is ${marker}.`);
+    function declareWinner() {
+        return `Game Over. ${this.name} wins!`;
     }
-    return {name, marker, declarePlayer};
+    return {name, marker, declareWinner};
 }
-
 
 
 const gameController = (function () {
     
     const players = [];
     let activePlayer;
+    const marquee = document.querySelector('.marquee');
     
     const gatherPlayers = () => {
-        const submitButton = document.getElementById('submit');
+        const startButton = document.getElementById('start');
         
-        submitButton.addEventListener('click', (event) => {
+        startButton.addEventListener('click', (event) => {
         event.preventDefault();
         const matchup = document.querySelector('.matchup');
         const p1Input = document.getElementById('p1-name');
@@ -85,6 +81,7 @@ const gameController = (function () {
         gameboard.clearBoard();
         gameboard.displayBoard();
         activePlayer = players[0];
+        marquee.textContent = `${players[0].name}'s turn...`
         getPlayerChoice(); 
     }
 
@@ -92,30 +89,30 @@ const gameController = (function () {
         const squares = document.querySelectorAll('.square');
         squares.forEach(square => {
             square.addEventListener('click', () => {
-                console.log(`${square.id}`);
                 playRound(square.id.charAt(0), square.id.charAt(3))
                 });
         }); 
     };
 
     const playRound = function (row, column) {
-
         if (gameboard.getBoard()[row][column] === '') {
             gameboard.placeMarker(row, column, getActivePlayer());
-            return isGameOver() === true ? console.log('Game Over') :
-            switchPlayer();
-            
+            return isGameOver() === true
+            ? getActivePlayer().declareWinner() 
+            : switchPlayer();    
         } else {
-            alert('Please select a valid square!');
+            marquee.textContent = 'Please select a valid square!';
             return;
         };
-        
     };
 
     const switchPlayer = function () {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        marquee.textContent = `${activePlayer.name}'s turn...`
         getPlayerChoice();
     };
+
+    const getActivePlayer = () => activePlayer;
 
     const isGameOver = () => {
 
@@ -126,9 +123,9 @@ const gameController = (function () {
         const checkRows = () => {
             for (i = 0; i < board.length; i++) {
                 !board[i].includes('O') && !board[i].includes('')
-                ? winner = players[0].name
+                ? winner = players[0]
                 : !board[i].includes('X') && !board[i].includes('')
-                ? winner = players[1].name
+                ? winner = players[1]
                 : winner;
             };
             checkColumns();
@@ -143,9 +140,9 @@ const gameController = (function () {
 
             for (i = 0; i < cols.length; i++) {
                 !cols[i].includes('O') && !cols[i].includes('')
-                ? winner = players[0].name
+                ? winner = players[0]
                 : !cols[i].includes('X') && !cols[i].includes('')
-                ? winner = players[1].name
+                ? winner = players[1]
                 : winner;
             };
             checkDiags();  
@@ -159,28 +156,25 @@ const gameController = (function () {
 
             for (i = 0; i < diags.length; i++) {
                 !diags[i].includes('O') && !diags[i].includes('')
-                ? winner = players[0].name
+                ? winner = players[0]
                 : !diags[i].includes('X') && !diags[i].includes('')
-                ? winner = players[1].name
+                ? winner = players[1]
                 : winner;
             };  
         }
 
         const checkTie = () => {
-            if (!emptySquaresExist) {
-            console.log('Tie game!');
-            return true;
-            }
+            if (!emptySquaresExist) { return true }
         }
 
         checkRows();
-        console.log(`Winner is: ${winner}`);
+
+        winner ? marquee.textContent = winner.declareWinner()
+        : checkTie() ? marquee.textContent = 'Tie Game!'
+        : marquee.textContent = '';
+        
         return winner || checkTie() ? true : false;       
     }
 
-    const getActivePlayer = () => activePlayer
-
     gatherPlayers();
-
-    return {getActivePlayer, playRound};
 })();
