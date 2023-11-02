@@ -8,7 +8,7 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 16px;
     color: #222;
-    background-color: #efefef;
+    background-color: #222;
 }
 
 .container {
@@ -18,7 +18,7 @@
     align-items: center;
     background-color: hsl(194, 85%, 90%);
     gap: 1rem;
-    width: 50%;
+    width: 60%;
     height: 100vh;
     min-width: 420px;
 }
@@ -33,20 +33,59 @@ label {
 }
 
 input {
-    height: 1.6rem;
-    margin-bottom: 0.3rem;
-    padding: 2px;
+    height: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    padding: 4px;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+
+.info {
+    width: 100%;
+}
+
+.matchup {
+    font-size: 1.2rem;
+    margin: 8px auto;
+    text-align: center;
+    height: 2.5rem;
+}
+
+.marquee {
+    font-size: 1.4rem;
+    font-family: monospace;
+    font-weight: bold;
+    margin: 8px auto;
+    padding: 8px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    width: 90%;
+    max-width: 380px;
+    background-color: #111;
+    color: hsl(10, 95%, 55%);
+    border-radius: 3px;
 }
 
 button {
     display: block;
-    padding: 4px;
+    padding: 8px;
+    border: 1px solid #222;
+    border-radius: 6px;
+    margin: 4px auto;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: hsl(50, 95%, 60%)
 }
 
 .gameboard {
     width: 380px;
     height: 380px;
     border: 4px double #343434;
+    border-radius: 6px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -55,7 +94,8 @@ button {
 
 .gameboard > div {
     border: 1px solid #343434;
-    font-size: 5.5rem;
+    font-size: 5.8rem;
+    font-weight: bold;
     text-align: center;
     display: flex;
     justify-content: center;
